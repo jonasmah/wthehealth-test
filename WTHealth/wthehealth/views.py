@@ -97,7 +97,7 @@ def retrieve_data(request):
     print("Queries executed:", len(connection.queries) - queries_before)
     print("Total time:", round(time.time() - start_time, 2), "seconds")
 
-    return render(request, 'index.html')
+    return render(request, 'index_TEST.html')
     # return render(request, 'index.html', context)
 
 
