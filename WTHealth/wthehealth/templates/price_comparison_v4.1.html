@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <!-- SEO -->
+    <title>What The Health — Medical Cost Comparison for Malaysian - Health Screening, Radiology Test, Surgery, Procedure & More</title>
+    <meta name="description" content="Compare medical cost in Malaysia. Find average surgery and procedure costs, hospital lists and reviews to make informed healthcare choices.">  
+    
+    <meta name="keywords" content="hospital prices Malaysia, surgery cost, health screening packages, medical costs Kuala Lumpur">
+    <meta name="author" content="What The Health">
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="What The Health — Medical Cost Comparison for Malaysian - Health Screening, Radiology Test, Surgery, Procedure & More">
+    <meta property="og:description" content="Compare medical cost in Malaysia. Find average surgery and procedure costs, hospital lists and reviews to make informed healthcare choices.">
+    <meta property="og:type" content="website">
+    <!-- <meta property="og:url" content="https://yourwebsite.com/"> -->
+
+    <!-- SEO - To update domain -->
+    <!-- <link rel="canonical" href="https://your-domain.example/">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "What The Health",
+      "url": "https://yourwebsite.com",
+      "description": "Compare health screening, radiology test, surgery, procedure prices in Malaysia",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://yourwebsite.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script> -->
+
+    
+    <!-- Section 2 - Search Table (Bootstrap)-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load FIRST as a stylesheet link, not script
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Other resources -->
+    <script src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css"></script> 
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <style>
+      /* RESET & BASIC STYLES
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+
+      :root {
+        --white: #fff;
+        --darkblue: #1b4965;
+        --lightblue: #edf2f4;
+      }
+
+      .container_surgery_price_table {
+        /* Mobile - not exceed tab length  */
+        /* min-width: 500px; */
+        /* max-width: 1000px; */
+        /* max-width: 100%; for mobile responsiveness */
+
+        padding: 0 15px;
+        margin: 10px auto 30px;
+      }
+
+      @media (min-width: 768px) {
+        .container_surgery_price_table {
+          max-width: 1300px;
+          padding: 20px;
+        }
+      }
+
+      /* TABLE STYLES
+      –––––––––––––––––––––––––––––––––––––––––––––––––– */
+      .table-wrapper {
+        overflow-x: auto;
+      }
+
+      .table-wrapper::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .table-wrapper::-webkit-scrollbar-thumb {
+        background: var(--darkblue);
+        border-radius: 40px;
+      }
+
+      .table-wrapper::::-webkit-scrollbar-track {
+        background: var(--white);
+        border-radius: 40px;
+      }
+
+      .table-wrapper table {
+        margin: 10px 0 20px;
+        border-collapse: collapse;
+
+        table-layout: auto;
+        width: 100%;
+        /* text-align: center; */
+      }
+
+      .table-wrapper table th,
+      .table-wrapper table td {
+        padding: 10px;
+        min-width: 140px;
+
+        /* white-space: nowrap; */
+        text-align: center;
+        vertical-align: top;
+      }
+
+      .table-wrapper table th {
+        color: var(--white);
+        background: var(--darkblue);
+
+        /* width: 70%; */
+      }
+
+      .table-wrapper table tbody tr:nth-of-type(even) > * {
+        background: var(--lightblue);
+      }
+
+      .table-data-source {
+        font-size: 12px;
+        margin-top: 10px;
+      }
+
+      /* Tabs */
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+
+      /* Style the buttons that are used to open the tab content */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border-top: none;
+      }
+
+      #row-package {
+        font-weight: 700;
+        color: var(--white);
+        background: var(--darkblue);
+      }
+
+      #row-price {
+        font-weight: 700;
+        font-size: 20px;
+      }
+
+      #icon_yes {
+        width: 35px;
+        height: 35px;
+        margin: auto;
+      }
+
+      #icon_no {
+        width: 36px;
+        height: 36px;
+        margin: auto;
+      }
+
+      .hosp_name{
+        cursor: pointer;
+      }
+    </style>
+</head>
+
+
+<body>
+  <!-- Tabs - Price Comparison -->
+  <section>
+  <div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'health_screening')">Health Screening</button>
+    <button class="tablinks" onclick="openTab(event, 'endoscopy_ogds')">OGDS (Endoscopy)</button>
+    <button class="tablinks" onclick="openTab(event, 'endoscopy_colon')">Colon (Endoscopy) </button>
+    <button class="tablinks" onclick="openTab(event, 'diagnostic')">Diagnostic Tests</button>
+  </div>
+
+<!-- Banner: Encourage Sharing Hospital Experience -->
+<div style="background:#eaf6fb; border-radius:10px; padding:20px; margin-bottom:25px; box-shadow:0 2px 8px rgba(52,152,219,0.08); text-align:center;">
+  <h1 style="font-size:2rem; color:#2980b9; margin-bottom:10px; font-weight:700;">Share your hospital experience &amp; make a difference</h1>
+  <p style="font-size:1.1rem; color:#34495e; margin-bottom:0;">Help other patients by <a href="mailto:your@email.com" style="color:#2980b9; text-decoration:underline; font-weight:500;">emailing your story</a></p>
+</div>
+
+  <!-- Tab 2 - Endoscopy -->
+  <div id="endoscopy_ogds" class="tabcontent">
+   <div class="container_surgery_price_table">
+
+    <h2 style="font-size: 20px; font-weight: 700;">OGDS (Endoscopy)</h2>
+    <br/>
+    <h3 style="font-size: 15px; font-weight: 700;">Klang Valley</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hosp_name"><a href="https://subangjayamedicalcentre.com/highlights/promotions/digestive-health-screening">SUBANG JAYA MEDICAL CENTRE</a></td>
+              <td>Selangor</td>
+              <td>2100</td>
+            </tr>
+            <tr>
+              <td class="hosp_name"><a href="https://www.columbiaasia.com/malaysia/bukit-jalil/packages/endoscopy-packages/">HOSPITAL COLUMBIA ASIA - BUKIT JALIL</a></td>
+              <td>Kuala Lumpur</td>
+              <td>1688</td>
+            </tr>
+            <tr>
+              <td class="hosp_name"><a href="https://shop.sunwaymedical.com/packages/gastroscopy-upper-bowel-scope/">SUNWAY MEDICAL CENTRE - BANDAR SUNWAY </a></td>
+              <td>Selangor</td>
+              <td>1700</td>
+            </tr>
+            <tr>
+              <td class="hosp_name"><a href="https://umsc.my/promotions/endoscopy-packages/">UM SPECIALIST CENTRE</a></td>
+              <td>Selangor</td>
+              <td>1399</td>
+            </tr>
+            <tr>
+              <td class="hosp_name"><a href="https://lifecarediagnostic.com/product/gastroscopy-ogds/">LIFE CARE DIAGNOSTIC MEDICAL CENTRE</a></td>
+              <td>Kuala Lumpur</td>
+              <td>1749</td>
+            </tr>
+            <tr>
+              <td>COLUMBIA ASIA HOSPITAL KLANG</td>
+              <td>Selangor</td>
+              <td>2000</td>
+            </tr>
+            <tr>
+              <td class="hosp_name"><a href="https://cengild.com/packages/category/digestive-screening/">CENGILD G.I MEDICAL CENTRE</a></td>
+              <td>Kuala Lumpur</td>
+              <td>1998</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    <h3 style="font-size: 15px; font-weight: 700;">Johor</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hosp_name"><a href="https://www.kpjhealth.com.my/endoscopy-package-68">BANDAR DATO’ ONN SPECIALIST HOSPITAL</a></td>
+              <td>Johor Bharu</td>
+              <td>1900</td>
+            </tr>
+            <tr>
+              <td class="hosp_name"><a href="https://gleneagles.com.my/johor/facilities-services/endoscopy">GLENEAGLES HOSPITAL JOHOR</a></td>
+              <td>Johor Bharu</td>
+              <td>1988</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <h3 style="font-size: 15px; font-weight: 700;">Penang</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hosp_name"><a href="https://www.sunwaymedicalpenang.com.my/en/promotion/healthy-gut-happy-you/">SUNWAY MEDICAL CENTRE PENANG</a></td>
+              <td>Penang</td>
+              <td>1800</td>
+            </tr>
+            <tr>
+              <td>Columbia Asia Hospital Batu Kawan</td>
+              <td>Penang</td>
+              <td>1800</td>
+            </tr>            <tr>
+              <td>KPJ PENANG SPECIALIST HOSPITAL</td>
+              <td>Penang</td>
+              <td>1288</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+   
+
+      <p class="table-data-source">Note: Prices last updated first quarter 2026 & are subject to change by hospitals without prior notice. For the most accurate information, please contact the hospital directly.</p>
+    </div>
+  </div>
+
+
+  <!-- Tab 3 - Colon (Endoscopy) -->
+  <div id="endoscopy_colon" class="tabcontent">
+   <div class="container_surgery_price_table">
+    <h2 style="font-size: 20px; font-weight: 700;">Colonoscopy (Endoscopy)</h2>
+    <br/>
+    <h3 style="font-size: 15px; font-weight: 700;">Klang Valley</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hosp_name"><a href="https://subangjayamedicalcentre.com/highlights/promotions/digestive-health-screening">SUBANG JAYA MEDICAL CENTRE</a></td>
+              <td>Selangor</td>
+              <td>2800</td>
+            </tr>            
+            <tr>
+              <td class="hosp_name"><a href="https://www.columbiaasia.com/malaysia/bukit-jalil/packages/endoscopy-packages/">HOSPITAL COLUMBIA ASIA - BUKIT JALIL</a></td>
+              <td>Kuala Lumpur</td>
+              <td>2188</td>
+            </tr>            
+            <tr>
+              <td class="hosp_name"><a href="https://shop.sunwaymedical.com/packages/colonoscopy-lower-bowel-scope/">SUNWAY MEDICAL CENTRE - BANDAR SUNWAY</a></td>
+              <td>Selangor</td>
+              <td>2200</td>
+            </tr>            
+            <tr>
+              <td class="hosp_name"><a href="https://umsc.my/promotions/endoscopy-packages/">UM SPECIALIST CENTRE</a></td>
+              <td>Selangor</td>
+              <td>1999</td>
+            </tr>            
+            <tr>
+              <td>COLUMBIA ASIA HOSPITAL KLANG</td>
+              <td>Selangor</td>
+              <td>2500</td>
+            </tr>            
+            <tr>
+              <td class="hosp_name"><a href="https://cengild.com/packages/category/digestive-screening/">CENGILD G.I MEDICAL CENTRE</a></td>
+              <td>Kuala Lumpur</td>
+              <td>2898</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>      
+
+    <br/>
+    <h3 style="font-size: 15px; font-weight: 700;">Johor</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hosp_name"><a href="https://www.kpjhealth.com.my/endoscopy-package-68">BANDAR DATO’ ONN SPECIALIST HOSPITAL</a></td>
+              <td>Johor Bahru</td>
+              <td>2500</td>
+            </tr>            <tr>
+              <td class="hosp_name"><a href="https://gleneagles.com.my/johor/facilities-services/endoscopy">GLENEAGLES HOSPITAL JOHOR</a></td>
+              <td>Johor Bahru</td>
+              <td>2088</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>      
+
+    <br/>
+    <h3 style="font-size: 15px; font-weight: 700;">Penang</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="hosp_name"><a href="https://www.sunwaymedicalpenang.com.my/en/promotion/healthy-gut-happy-you/">SUNWAY MEDICAL CENTRE PENANG</a></td>
+              <td>Penang</td>
+              <td>2500</td>
+            </tr>            
+            <tr>
+              <td>GLENEAGLES HOSPITAL JOHOR</a></td>
+              <td>Penang</td>
+              <td>2500</td>
+            </tr>            
+            <tr>
+              <td>KPJ PENANG SPECIALIST HOSPITAL</a></td>
+              <td>Penang</td>
+              <td>1888</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>  
+
+      
+
+      <p class="table-data-source">Disclaimer: Prices last updated first quarter 2026 & are subject to change by hospitals without prior notice. For the most accurate information, please contact the hospital directly.</p>
+    </div>
+  </div>
+
+
+  <!-- Tab 4 - Diagnostics Tests -->
+  <div id="diagnostic" class="tabcontent">
+
+   <div class="container_surgery_price_table">
+    <h2 style="font-size: 20px; font-weight: 700;">Mammogram</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Beacon Hospital</td>
+              <td>Selangor</td>
+              <td>299</td>
+            </tr>
+            <tr>
+              <td>Pantai Hospital Kuala Lumpur</td>
+              <td>Kuala Lumpur</td>
+              <td>317</td>
+            </tr>
+            <tr>
+              <td>Columbia Asia Hospital - Petaling Jaya</td>
+              <td>Selangor</td>
+              <td>290</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
+    <h2 style="font-size: 20px; font-weight: 700;">Pap Smear</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Beacon Hospital</td>
+              <td>Selangor</td>
+              <td>158</td>
+            </tr>
+            <tr>
+              <td>Pantai Hospital Kuala Lumpur</td>
+              <td>Kuala Lumpur</td>
+              <td>100</td>
+            </tr>
+            <tr>
+              <td>Sunway Medical Centre - Bandar Sunway</td>
+              <td>Selangor</td>
+              <td>137</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
+    <h2 style="font-size: 20px; font-weight: 700;">Cancer Marker Screening</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>KMI Taman Desa Medical Centre</td>
+              <td>Kuala Lumpur</td>
+              <td>300</td>
+            </tr>
+            <tr>
+              <td>Pusat Perubatan Pakar Sri Kota</td>
+              <td>Klang</td>
+              <td>300</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      
+    <h2 style="font-size: 20px; font-weight: 700;">Bone Dexa</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Hospital</th>
+              <th>State</th>
+              <th>Price (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Beacon Hospital</td>
+              <td>Selangor</td>
+              <td>200</td>
+            </tr>
+            <tr>
+              <td>KLSMC</td>
+              <td>Kuala Lumpur</td>
+              <td>150 - 350</td>
+            </tr>
+            <tr>
+              <td>Pantai Hospital Kuala Lumpur</td>
+              <td>Kuala Lumpur</td>
+              <td>279</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <p class="table-data-source">Note: Prices last updated September 2025 & are subject to change by hospitals without prior notice. For the most accurate information, please contact the hospital directly.</p>
+    </div>
+  </div>
+
+
+
+  <!-- Tab 1 - Health Screening Price -->
+  <div id="health_screening" class="tabcontent" style="display:block">
+
+    <div class="container_surgery_price_table">
+    <h2 style="font-size: 20px; font-weight: 700;">Basic Health Screening</h2>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+              <th>Hospital</th>
+              <th class="hosp_name"><a href="https://www.kpjhealth.com.my/general-executive-screening-package-67" target="_blank">KPJ - Ampang Puteri Specialist Hospital</a></th>
+              <th>KPJ - Damansara Specialist Hospital</th>
+              <th class="hosp_name"><a href="https://www.pantai.com.my/ampang/health-screening-packages/health-screening-packages" target="_blank">Pantai Hospital Ampang</a></th>
+              <th class="hosp_name"><a href="https://www.pantai.com.my/kuala-lumpur/health-screening-packages/health-screening-packages" target="_blank">Pantai Hospital Kuala Lumpur</a></th>
+              <th class="hosp_name"><a href="https://www.columbiaasia.com/malaysia/bukit-rimau/packages/health-screening-packages/" target="_blank">Columbia Asia Bukit Rimau</a></th>
+              <th class="hosp_name"><a href="https://www.columbiaasia.com/malaysia/bukit-jalil/packages/health-screening-packages/" target="_blank">Columbia Asia Bukit Jalil</a></th>
+              <th class="hosp_name"><a href="https://www.sunwaymedicaldamansara.com.my/en/package/general-essential" target="_blank">Sunway Medical Centre Damansara</a></th>
+              <th class="hosp_name"><a href="https://shop.sunwaymedicalvelocity.com.my/health-screening-packages/general-essential/" target="_blank">Sunway Medical Centre Velocity</a></th>
+              <th class="hosp_name"><a href="https://gleneagles.com.my/kuala-lumpur/health-screening-unit/basic" target="_blank">Gleneagles Kuala Lumpur</a></th>
+              <th class="hosp_name"><a href="https://subangjayamedicalcentre.com/highlights/health-screening/male-packages" target="_blank">Subang Jaya Medical Centre</a></th>
+              <th class="hosp_name"><a href="https://subangjayamedicalcentre.com/highlights/health-screening/female-packages" target="_blank">Subang Jaya Medical Centre</a></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="row-package">
+              <td>Health Screening Package</td>
+              <td>General Executive</td>
+              <td>Wellness Bronze</td>
+              <td>Basic</td>
+              <td>Core</td>
+              <td>Essential</td>
+              <td>Essential</td>
+              <td>General Essential</td>
+              <td>General Essential</td>
+              <td>Basic</td>
+              <td>Men Gold</td>
+              <td>Women Gold</td>
+          </tr>
+          <tr id="row-price">
+              <td>Price (RM)</td>
+              <td>270</td>
+              <td>458</td>
+              <td>298</td>
+              <td>329</td>
+              <td>289</td>
+              <td>338</td>
+              <td>399</td>
+              <td>399</td>
+              <td>551</td>
+              <td>760</td>
+              <td>760</td>
+          </tr>
+          <!-- add alt for SEO   -->
+          <tr>
+            <td>Blood Test</td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+          </tr>
+          <tr>
+              <td>Urine Test</td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+          </tr>
+          <tr>
+              <td>ECG</td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+          </tr>
+          <tr>
+              <td>Chest X-ray</td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+          </tr>
+          <tr>
+              <td>Tumour Markers</td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+          </tr>
+          <tr>
+              <td>Consultation - Medical Officer</td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+          </tr>
+          <tr>
+              <td>Dietitian Consultation</td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_no.jpg' %}" alt="Not included in package" id="icon_no"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+              <td><img src="{% static 'images/icon_yes.png' %}" alt="Included in package" id="icon_yes"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-data-source">Note: Prices last updated fourth quarter 2025 & are subject to change by hospitals without prior notice. For the most accurate information, please contact the hospital directly.</p>
+  </div>
+    
+ 
+
+
+
+  </section>
+
+</body>
+
+
+<script>
+// Plotly (Python) - Horizontal Bar Chart
+const xArray_h = [8000, 52000, 7000, 20000, 13000, 34000, 8000, 52000, 39000];
+const yArray_h= [
+  "Angiogram", 
+  "Anterior Resection - Laparascopic", 
+  "Cataract ", 
+  "Chemotherapy", 
+  "Hernia Repair - unilateral", 
+  "Myomectomy - Laparoscopic", 
+  "OGDS + Colonoscopy", 
+  "Prostatectomy", 
+  "Total Knee Replacement - unilateral"
+];
+
+const data_h = [{
+  x:xArray_h,
+  y:yArray_h,
+  type:"bar",
+  orientation:"h",
+  marker: {color:"rgba(255,0,0,0.6)"}
+}];
+
+// dynamic height: e.g. 40px per bar + header/margins
+const computedHeight = Math.max(300, yArray_h.length * 40 + 140);
+// Mobile-aware margin
+const isMobile = window.innerWidth < 768;
+
+const layout_h = {
+  title: {
+    text: "Average Surgery & Procedure Price",
+    font: {
+      size: isMobile ? 14 : 20,  // Mobile - Adjust size
+      weight: 'bold', // Make the title bold
+    },
+  },
+  xaxis:{
+    title:"MYR", 
+    tickfont: { size: isMobile ? 10 : 12 } // Mobile - Adjust size
+  },
+  yaxis: {
+    automargin: true,
+    tickfont: { size: isMobile ? 10 : 12 },  // Mobile - Adjust size; reduce if labels still overlap
+    // tickangle: 0           // try -10 or -20 to tilt if preferred
+  },
+  margin: {
+    l: 0,   // << adjust this value (px) until the full labels show
+    r: 0,
+    t: isMobile? 60: 80, // Mobile - adjust top margin
+    b: 35
+  },
+  height: computedHeight,   // sets overall pixel height
+  bargap: 0.18              // smaller => bars thicker; try 0.1–0.25
+};
+
+Plotly.newPlot("myPlot1", data_h, layout_h, {responsive: true});
+
+
+
+// Javascript
+var windowWidth = window.innerWidth;
+document.getElementById("result").innerHTML = "Browser window width: " + windowWidth + "px";
+
+// **Set a default tab on page load to 'health_screening'**
+document.addEventListener('DOMContentLoaded', function() {
+    const defaultTabName = 'health_screening';
+    
+    // 1. Show the content for the default tab
+    document.getElementById(defaultTabName).style.display = "block";
+    
+    // 2. Set the corresponding button to active
+    // We select the third button (index 2) which corresponds to 'Health Screening'
+    const tablinks = document.getElementsByClassName("tablinks");
+    if (tablinks.length > 2) {
+        tablinks[2].className += " active";
+    }
+    
+    // Note: Since no event is being passed, we can't use the full 'openTab(evt, name)' 
+    // function for the *initial* load if we want to skip hiding all content first. 
+    // This simpler direct assignment ensures it appears immediately.
+});
+
+
+//Display Tabs
+function openTab(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+</script>
+
+</html>
+
+

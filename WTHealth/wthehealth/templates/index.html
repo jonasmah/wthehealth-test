@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% comment %} Load Tailwind CSS from CDN {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    {% comment %} Include jQuery & Boostrap  {% endcomment %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    {% if GA_TRACKING_ID %}
+    <!-- Google Analytics GA4 tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GA_TRACKING_ID }}');
+    </script>
+    {% endif %}
+
+    <title> Compare Price for Malaysia Healthcare Services | Hospital Reviews & Ratings</title>
+
+    <style>
+    /* ─────────────────────────────────────────
+       CSS VARIABLES — easy to tweak colours
+    ───────────────────────────────────────── */
+    :root {
+      --clr-primary:   #2BB5A0;   /* teal — calm, medical, fresh */
+      --clr-accent:    #FF7B54;   /* warm coral — friendly & warm */
+      --clr-bg:        #F5FFFE;   /* very light teal wash */
+      --clr-white:     #FFFFFF;
+      --clr-text-dark: #1E3A35;
+      --clr-text-mid:  #4A7A72;
+      --radius-pill:   999px;
+      --shadow-soft:   0 4px 24px rgba(43,181,160,0.13);
+    }
+
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--clr-bg);
+      color: var(--clr-text-dark);
+    }
+
+    /* ─────────────────────────────────────────
+       HEADER WRAPPER
+    ───────────────────────────────────────── */
+    .site-header {
+      background: var(--clr-white);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 3px solid var(--clr-primary);
+    }
+
+    /* ─────────────────────────────────────────
+       LOGO + BRAND (left side)
+    ───────────────────────────────────────── */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+    }
+
+    /* SVG logo — inline so colour is easily changed via CSS */
+    .brand-logo {
+      flex-shrink: 0;
+      width: 60px;
+      height: 60px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+      margin: 15px 0;
+    }
+
+    /* "What The Health.com" — big playful brand name */
+    .brand-name {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--clr-primary);
+      letter-spacing: -0.5px;
+      white-space: nowrap;   /* keeps brand name on one line */
+    }
+
+    /* "com" suffix styled differently for personality */
+    .brand-name span {
+      color: var(--clr-accent);
+    }
+
+    /* Tagline beneath brand name */
+    .brand-tagline {
+      font-weight: 600;
+      color: var(--clr-text-mid);
+      letter-spacing: 0.3px;
+      margin-top: 2px;
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE — collapse nav on small screens
+    ───────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .site-header { flex-direction: column; text-align: center; padding: 16px 20px; }
+      .site-nav { flex-wrap: wrap; justify-content: center; gap: 14px; }
+      .brand { justify-content: center; }
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    .site-footer {
+      background: var(--clr-text-dark);   /* dark teal — feels grounded */
+      color: var(--clr-white);
+      padding: 48px 40px 0;
+      margin-top: auto;
+    }
+
+    /* Top row: left + right sections side by side */
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    /* LEFT section */
+    .footer-brand-name {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--clr-primary);
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand-name span {
+      color: var(--clr-accent);    /* ".com" in coral, matching header */
+    }
+
+    .footer-tagline {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    /* RIGHT section */
+    .footer-contact-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--clr-primary);
+      margin-bottom: 8px;
+    }
+
+    .footer-contact-email {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--clr-white);
+      text-decoration: none;
+      border-bottom: 2px solid var(--clr-accent);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .footer-contact-email:hover {
+      color: var(--clr-accent);
+      border-color: transparent;
+    }
+
+    /* Bottom row: copyright bar */
+    .footer-bottom {
+      padding: 16px 0;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+    }
+
+    /* Responsive footer */
+    @media (max-width: 640px) {
+      .footer-top { flex-direction: column; align-items: center; text-align: center; }
+      .footer-tagline { max-width: 100%; }
+    }
+
+
+    </style>
+</head>
+
+<!-- =========================   HEADER START   ========================= -->
+<header>
+    <!-- LEFT: Logo + Brand -->
+  <a href="/" class="brand" aria-label="What The Health home">
+
+    <!--
+      LOGO — a friendly heart with a small cross/plus inside,
+      wrapped in a soft rounded square. Pure SVG, no image file needed.
+      To change colours, just update fill values below.
+    -->
+    <svg class="brand-logo" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Rounded square background -->
+      <rect width="60" height="60" rx="16" fill="#E8FAF8"/>
+
+      <!-- Heart shape -->
+      <path d="M30 44
+               C30 44 14 34 14 23.5
+               C14 18.5 18 15 22.5 15
+               C25.5 15 28 16.8 30 19
+               C32 16.8 34.5 15 37.5 15
+               C42 15 46 18.5 46 23.5
+               C46 34 30 44 30 44Z"
+            fill="#2BB5A0" opacity="0.18"/>
+      <path d="M30 42
+               C30 42 15 32.5 15 22.5
+               C15 18 18.5 15 22.5 15
+               C25.5 15 28 17 30 19.5
+               C32 17 34.5 15 37.5 15
+               C41.5 15 45 18 45 22.5
+               C45 32.5 30 42 30 42Z"
+            fill="#2BB5A0"/>
+
+      <!-- Small plus/cross inside heart — represents healthcare -->
+      <rect x="27.5" y="23" width="5" height="12" rx="2" fill="white"/>
+      <rect x="24" y="26.5" width="12" height="5" rx="2" fill="white"/>
+    </svg>
+
+    <div class="brand-text">
+      <!-- Brand name: "What The Health" + ".com" in accent colour -->
+      <div class="brand-name">What The <span>Health</span></div>
+      <!-- Tagline / second-level header -->
+      <div class="brand-tagline">Compare healthcare prices across Malaysia hospitals</div>
+    </div>
+  </a>
+</header>   
+
+<body>
+    {% include 'price_comparison_v4.1.html' %}
+
+</body>
+
+<!-- =========================   FOOTER START   ========================= -->  
+<footer class="site-footer">
+
+  <!-- TOP ROW: left brand + right contact -->
+  <div class="footer-top">
+
+    <!-- LEFT: brand name + tagline -->
+    <div class="footer-left">
+      <div class="footer-brand-name">What The <span>Health</span></div>
+      <div class="footer-tagline">Empowering patients with healthcare insights.</div>
+    </div>
+
+
+    <!-- RIGHT: contact email -->
+    <div class="footer-right">
+      <div class="footer-contact-label">Get in touch        
+        <a href="https://www.xiaohongshu.com/user/profile/65cbfd60000000000401ea6f" target="_blank" rel="noopener" style="display:inline-block;">
+          <img src="{% static 'images/xhs.png' %}" alt="Xiaohongshu" style="height:42px; vertical-align:middle; margin-left:5px;">
+        </a>
+      </div>      
+
+      <a href="mailto:Wthealth2044@outlook.com" class="footer-contact-email">
+        WTHealth2044@outlook.com
+      </a>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM ROW: copyright -->
+  <div class="footer-bottom">
+    © 2025 What The Health. All rights reserved.
+  </div>
+
+</footer>
+
+</html>

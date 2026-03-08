@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<!-- SEO Language Attribute-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hospital Reviews Malaysia | Patient Reviews & Ratings</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Find trusted hospital reviews and ratings in Malaysia. Read patient experiences from Columbia Hospital, Regency Medical Centre, KPJ Seremban and more.">
+<meta name="keywords" content="hospital reviews Malaysia, patient reviews, hospital ratings, healthcare Malaysia, Selangor hospitals, KL hospitals">
+<meta name="robots" content="index, follow">
+<meta name="author" content="What the Health">
+
+<!-- Open Graph Meta Tags for Social Sharing -->
+<meta property="og:title" content="Hospital Reviews Malaysia | Patient Reviews & Ratings">
+<meta property="og:description" content="Find trusted hospital reviews and ratings in Malaysia. Read real patient experiences.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com/hospital-reviews">
+<meta property="og:image" content="https://yourwebsite.com/images/hospital-reviews-og.jpg">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hospital Reviews Malaysia">
+<meta name="twitter:description" content="Find trusted hospital reviews and ratings in Malaysia.">
+
+<!-- Google Fonts for better readability -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome for beautiful star icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* Modern Section Header */
+h2.section-header {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #34495e;
+  letter-spacing: 0.5px;
+  margin: 0 15px 18px;
+  text-shadow: 0 2px 8px rgba(52, 152, 219, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f7fa;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  color: #2c3e50;
+  line-height: 1.6;
+}
+
+div.flex-container-filter-section {
+  display: flex;
+  flex-direction: row;
+
+  // max-width: 1400px;
+  margin: 10px 10px;
+}
+
+div.flex-container-filter-section > div {
+  margin: 0 10px;
+}
+
+/* Use media query and show the flex items vertically if screen width is less than 600px */
+@media screen and (max-width:600px) {
+  div.flex-container-filter-section {
+    flex-direction: column;
+  }
+}
+
+/* Use media query and show the flex items vertically if screen width is less than 600px */
+@media screen and (max-width:600px) {
+  div.flex-container-layer2 {
+    flex-direction: column;
+  }
+}
+
+/* Container - Filter Section */
+.container-hosp-filter {
+  width: 500px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+
+  /* filter stays visible while scrolling */
+  // position: sticky;
+  top: 20px;
+}
+
+.container-hosp-filter h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Container - Results Section */
+.results-container {
+  margin: 30px 20px;
+
+  flex: auto;
+  min-width: 0;
+}
+
+.container-hosp-name div {
+  background-color: #ffffff;
+  border: none;
+  border-left: 4px solid #3498db;
+  padding: 20px 25px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  font-size: 16px;
+  text-align: left;
+}
+
+.container-hosp-name div p {
+  margin: 8px 0;
+}
+
+.container-hosp-name div p:first-child,
+.container-hosp-name div h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.container-hosp-name div p:nth-child(2) {
+  color: #7f8c8d;
+  font-size: 15px;
+}
+
+.container-hosp-name div p:last-child {
+  color: #f39c12;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.container-hosp-review {
+  /* div/grid column width */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.container-hosp-review div {
+  background-color: #ffffff;
+  border: 1px solid #e8ecef;
+  padding: 20px;
+  margin: 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  text-align: left;
+  transition: box-shadow 0.2s ease;
+}
+
+.container-hosp-review div:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.container-hosp-review div p:first-child {
+  color: #34495e;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  min-height: 60px;
+}
+
+.container-hosp-review div p:nth-child(2) {
+  color: #f39c12;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+.container-hosp-review div p:nth-child(3) {
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+.container-hosp-review div p:last-child {
+  color: #95a5a6;
+  font-size: 12px;
+}
+
+
+/* Dropdown Button Styling */
+.inline-dropdown {
+  vertical-align: top;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.inline-dropdown .dropdown-menu {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #e8ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+}
+
+.btn-primary {
+  text-align: left;
+  width: 100%;
+  background-color: #3498db;
+  border: none;
+  padding: 12px 16px;
+  font-size: 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #2980b9 !important;
+  border-color: #2980b9 !important;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3) !important;
+}
+
+.inline-dropdown .dropdown-menu .form-control {
+  margin: 8px 12px;
+  width: calc(100% - 24px);
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.inline-dropdown .dropdown-menu li a {
+  padding: 10px 16px;
+  color: #2c3e50;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.inline-dropdown .dropdown-menu li a:hover {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+/* Table Styling */
+.table {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  margin-top: 30px;
+}
+
+.table thead {
+  background-color: #34495e;
+  color: #ffffff;
+}
+
+.table thead th {
+  font-weight: 500;
+  padding: 16px;
+  font-size: 15px;
+  border: none;
+}
+
+.table tbody td {
+  padding: 16px;
+  border-color: #ecf0f1;
+  color: #2c3e50;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+  background-color: #e8f4f8;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 900px) {
+  .container-hosp-filter {
+    width: 100%;
+    position: static;
+  }
+  
+  .container-hosp-review {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Better spacing for paragraphs */
+p {
+  margin: 0 0 10px 0;
+}
+
+/* Font Awesome Star Styling */
+.fa-star {
+  color: #f39c12; /* Golden/Orange color */
+}
+
+.fa-star.half {
+  color: #f39c12;
+}
+
+</style>
+
+<script>
+
+// Function - Display Hospitals and Reviews for each State / Hospital (from database)
+var stateObject = {{ hospitals_by_state_json|safe }};
+var reviewsObject = {{ reviews_by_state_json|safe }};
+var selectedState = null;
+var selectedHospital = null;
+
+// Configuration: adjust these numbers as needed for final design
+var DEFAULT_HOSP_COUNT = 5;    // When state selected (no specific hospital), display the first X hospitals with reviews
+var STATE_REVIEW_LIMIT = 5;    // Show top X reviews
+var HOSP_REVIEW_LIMIT = 30;    // Show X reviews for a selected hospital
+
+
+$(document).ready(function(){
+  $("#input_state").on("keyup", function() {
+    var input1 = $(this).val().toLowerCase();
+
+    $(".menu1 li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(input1) > -1)
+    });
+  });
+
+  $("#input_hosp").on("keyup", function() {
+    var input2 = $(this).val().toLowerCase();
+
+    $(".menu2 li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(input2) > -1)
+    });
+  });
+
+  // Filter Submit Button
+  $("#filterSubmit").on("click", function() {
+      var stateVal = $("#state").text().replace(" <span class=\"caret\"></span>", "").trim();
+      var hospVal = $("#hosp").text().replace(" <span class=\"caret\"></span>", "").trim();
+      selectedState = stateVal === "Select State" ? null : stateVal;
+      selectedHospital = hospVal === "Select hospital" ? null : hospVal;
+      alert("State: " + stateVal + "\nHospital: " + hospVal);
+
+    // If state selected (no specific hospital)
+    if (selectedState && !selectedHospital && stateObject[selectedState]) {
+      // show top reviews for the default hospitals
+      var reviewsForState = reviewsObject[selectedState] || [];
+      var uniqueHospitals = [];   // Get unique hospital names from reviewsForState
+
+      // For Hosp with reviews in specific state, extract the hospital list
+      reviewsForState.forEach(function(r) {
+        if (r.hospname && uniqueHospitals.indexOf(r.hospname) === -1) {
+          uniqueHospitals.push(r.hospname);
+        }
+      });
+      console.log("Hosp & REVIEWS FOR STATES", reviewsForState);
+
+      // Filter reviews for the default hospitals
+      // Once unique hospitals updated: displaying default hospitals = first X (DEFAULT_HOSP_COUNT) hospitals
+      var defaultHosp = uniqueHospitals.slice(0, DEFAULT_HOSP_COUNT);    
+      var filtered = reviewsForState.filter(function(r) {
+        return defaultHosp.indexOf(r.hospname) !== -1;
+      });
+      var top = sortAndLimitReviewsByState(filtered, STATE_REVIEW_LIMIT);
+
+      // TO AMEND - to add multiple hosp reveiws html
+      displayReviews(top);
+      
+      console.log("FILTERED REVIEWS for X hospitals in state:", filtered);
+      console.log("TOP reviews after sortAndLimitReviewsByState:", top);
+    }
+    // If hospital selected (no state)
+    else if (!selectedState && selectedHospital) {
+      // if state not chosen, search all states for reviews of this hospital
+      var filter_reviews = [];
+      for (var s in reviewsObject) {
+        var arr = reviewsObject[s] || [];
+
+        for (var j = 0; j < arr.length; j++) {
+          if (arr[j] && arr[j].hospname === selectedHospital) 
+            filter_reviews.push(arr[j]);
+        }
+      }
+      var top = sortAndLimitReviews(filter_reviews, HOSP_REVIEW_LIMIT);
+      displayReviews(top);
+
+      console.log("FILTERED REVIEWS for specific hospitals in state:", filter_reviews);
+      console.log("TOP reviews after sort:", top);
+    }
+    // If state & hosp both selected
+    else if (selectedState && selectedHospital && reviewsObject[selectedState]) {
+      var reviews = reviewsObject[selectedState].filter(function(r) { 
+        return r.hospname === selectedHospital; 
+      });
+      var top = sortAndLimitReviews(reviews, HOSP_REVIEW_LIMIT);
+      displayReviews(top);
+
+      console.log("FILTERED REVIEWS for specific hospitals in specific state:", reviews);
+      console.log("TOP reviews after sort:", top);
+    }
+
+  });
+
+
+});
+
+// Function - Sort reviews by rating (desc) and limit the number returned
+function sortAndLimitReviews(reviews, limit) {
+  if (!reviews || reviews.length === 0) 
+    return [];
+  
+  // .slice() = copy > sort > .slice() = limit number of reviews
+  return reviews.slice().sort(function(a, b) {
+    var ra = Number(a.rating) || 0;
+    var rb = Number(b.rating) || 0;
+    return rb - ra;
+  }).slice(0, limit);
+}
+
+// Function - For each unique hospital, sort reviews by rating and limit per hospital
+function sortAndLimitReviewsByState(reviews, limit) {
+  if (!reviews || reviews.length === 0) return [];
+
+  // Sort reviews by hospname (alphabetically), then by rating (descending)
+  var sortedReviews = reviews.slice().sort(function(a, b) {
+    if (a.hospname < b.hospname) return -1;
+    if (a.hospname > b.hospname) return 1;
+    // If hospname is the same, sort by rating descending
+    var ra = Number(a.rating) || 0;
+    var rb = Number(b.rating) || 0;
+    return rb - ra;
+  });
+
+  // Example loop: output first X reviews for each hospname
+  var result = [];
+  var hospCount = {};
+  sortedReviews.forEach(function(r) {
+    var hosp = r.hospname;
+    if (!hospCount[hosp]) 
+      hospCount[hosp] = 0;
+    if (hospCount[hosp] < limit) {
+      result.push(r);
+      hospCount[hosp]++;
+    }
+  });
+  return result;
+}
+
+// Function - Render reviews (each in its own article section)
+function displayReviews(reviews) {
+  // Use the parent results container so we can render multiple hospital blocks
+  var resultsArea = document.querySelector('.results-container');
+  if (!resultsArea) {
+    console.error('Results container not found');
+    return;
+  }
+
+  // Clear existing hospital header(s) and review blocks
+  resultsArea.innerHTML = '';
+
+  // If no reviews, show message
+  if (!reviews || reviews.length === 0) {
+    resultsArea.insertAdjacentHTML('beforeend', '<p style="padding: 20px; text-align: center; color: #7f8c8d;">No reviews available</p>');
+    return;
+  }
+
+  // Build grouped HTML: insert a header when hospname changes
+  var outputHTML = '';
+  var prevHosp = null;
+  var group = [];
+
+  // Ensure stable order: hospname then rating (reviews likely already sorted)
+  for (var i = 0; i < reviews.length; i++) {
+    var r = reviews[i];
+    var hosp = r.hospname || 'Hospital';
+
+    if (prevHosp === null) {
+      // start first group
+      prevHosp = hosp;
+      group = [r];
+    } else if (hosp === prevHosp) {
+      group.push(r);
+    } else {
+      // flush previous group
+      outputHTML += buildHospitalBlock(prevHosp, group);
+      // start new group
+      prevHosp = hosp;
+      group = [r];
+    }
+  }
+  // flush last group
+  if (group.length > 0) outputHTML += buildHospitalBlock(prevHosp, group);
+
+  // Insert all blocks
+  resultsArea.insertAdjacentHTML('beforeend', outputHTML);
+}
+
+// Helper: build header + reviews HTML for a single hospital group
+function buildHospitalBlock(hospName, reviewsForHosp) {
+  var hospState = '';
+  // find state for this hospital
+  for (var keyIter = 0; keyIter < Object.keys(stateObject).length; keyIter++) {
+    var key = Object.keys(stateObject)[keyIter];
+    if (stateObject[key] && stateObject[key].indexOf(hospName) !== -1) {
+      hospState = key;
+      break;
+    }
+  }
+
+  // calculate average rating for this hospital
+  var totalRating = 0;
+  for (var m = 0; m < reviewsForHosp.length; m++) {
+    totalRating += Number(reviewsForHosp[m].rating) || 0;
+  }
+  var avgRating = reviewsForHosp.length ? (totalRating / reviewsForHosp.length).toFixed(1) : '0.0';
+  var starsHTML = generateStars(avgRating);
+
+  var headerHTML = '<article class="container-hosp-name" itemscope itemtype="http://schema.org/Hospital">' +
+      '<div>' +
+        '<h2 itemprop="name">' + hospName + '</h2>' +
+        '<p><span aria-label="Location">&#128205;</span> <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><span itemprop="addressRegion">' + hospState + '</span></span></p>' +
+        '<p itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">' +
+          '<span class="star-rating" data-rating="' + avgRating + '">' + starsHTML + '</span> ' +
+          '<span itemprop="ratingValue" id="rating">' + avgRating + '</span>' +
+          '<meta itemprop="bestRating" content="5">' +
+        '</p>' +
+      '</div>' +
+    '</article>';
+
+  var reviewsHTML = '<div class="container-hosp-review">';
+  for (var j = 0; j < reviewsForHosp.length; j++) {
+    var rr = reviewsForHosp[j];
+    var rating = Number(rr.rating) || 0;
+    var stars = generateStars(rating);
+    var dateText = rr.datePublished ? new Date(rr.datePublished).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : 'Date not available';
+    var dateISO = rr.datePublished || new Date().toISOString().split('T')[0];
+
+    reviewsHTML += '<article itemprop="review" itemscope itemtype="http://schema.org/Review">' +
+        '<div>' +
+          '<p itemprop="reviewBody">"' + (rr.reviewtext || '') + '"</p>' +
+          '<p itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">' +
+            '<span class="star-rating" data-rating="' + rating + '">' + stars + '</span> ' +
+            '<span itemprop="ratingValue">' + rating + '</span>' +
+            '<meta itemprop="bestRating" content="5">' +
+          '</p>' +
+          '<p itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' + (rr.author || 'Anonymous') + '</span></p>' +
+          '<p><time itemprop="datePublished" datetime="' + dateISO + '">' + dateText + '</time></p>' +
+        '</div>' +
+      '</article>';
+  }
+  reviewsHTML += '</div>';
+
+  return headerHTML + reviewsHTML;
+}
+
+// Menu (State) - Change button text when dropdown item is clicked
+$(document).on("click", ".menu1 li a", function(e) {
+  e.preventDefault(); // Prevent default link behavior
+  var selectedText = $(this).text(); // Get the text of the clicked item  
+  selectedState = selectedText; // Store in global variable
+
+  // Update the filter button text
+  $("#state").html(selectedText + ' <span class="caret"></span>'); 
+
+  // Output both selections
+  console.log("Selected State:", selectedState);
+  console.log("Selected Hospital:", selectedHospital);
+  console.log("---");
+
+  //filtering column 1 only
+  $("#myTable tr").filter(function() {
+    var option = $(this).find("td:eq(0)").text().toLowerCase();
+    $(this).toggle(option.indexOf(selectedText.toLowerCase()) > -1);
+  });
+
+  // clear hospital dropdown
+  $("#hosp").html('<option value="" selected="selected">Select hospital</option>');
+
+  // Refresh hospitals dropwdown based on selected state
+  var dropdown_hosp = document.querySelector(".menu2");
+
+  // Remove all <li> elements (but keep the search input)
+  var lis = dropdown_hosp.querySelectorAll("li");
+  lis.forEach(function(li) {
+    li.parentNode.removeChild(li);
+  });
+
+  if (selectedState && stateObject[selectedState]) {
+    var hospitals = stateObject[selectedState];
+    var hospHTML = '';
+
+    var dropdown_hosp = document.querySelector(".menu2");
+    var searchInput2 = dropdown_hosp.querySelector(".form-control");
+
+    for (var i = 0; i < hospitals.length; i++) {
+      var name = hospitals[i];
+      if (name !== null && name !== undefined) {
+        hospHTML += '<li><a href="#">' + name + '</a></li>';
+      }
+    }
+    
+    searchInput2.insertAdjacentHTML('afterend', hospHTML);
+  }
+});
+
+// Menu (Hospitals) - Change button text when dropdown item is clicked
+$(document).on("click", ".menu2 li a", function(e) {
+  e.preventDefault(); // Prevent default link behavior
+  var selectedText = $(this).text(); // Get the text of the clicked item  
+  selectedHospital = selectedText; // Store in global variable
+
+  // Update the filter button text
+  $("#hosp").html(selectedText + ' <span class="caret"></span>'); 
+
+  // Output both selections
+  console.log("\n\nSelected State:", selectedState);
+  console.log("Selected Hospital:", selectedHospital);
+  console.log("---");
+
+  // filtering selection based on input
+  $("#myTable tr").filter(function() {
+    var option = $(this).find("td:eq(0)").text().toLowerCase();
+    $(this).toggle(option.indexOf(selectedText.toLowerCase()) > -1);
+  });
+});
+
+
+window.onload = function() {
+  var dropdown_state = document.querySelector(".menu1");
+  var dropdown_hosp = document.querySelector(".menu2");
+  var stateHTML = '';
+  var hospHTML = '';
+  var hospSelection = document.getElementById("hosp");
+
+  // Insert States selection
+  for (var state in stateObject) {
+    stateHTML += '<li><a href="#">' + state + '</a></li>';
+  }
+  var searchInput = dropdown_state.querySelector(".form-control");
+  searchInput.insertAdjacentHTML('afterend', stateHTML);
+
+  // Insert Hospitals selection
+  for (var state in stateObject) {
+    var list = stateObject[state] || [];
+    for (var i = 0; i < list.length; i++) {
+      hospHTML += '<li><a href="#">' + list[i] + '</a></li>';
+    }
+  }
+  var searchInput2 = dropdown_hosp.querySelector(".form-control");
+  searchInput2.insertAdjacentHTML('afterend', hospHTML);
+}
+
+// Function - Initialize hospital options in dropdown
+function initializeAllHospitals(stateObject, hospSelection) {
+  hospSelection.innerHTML = '<option value="" selected="selected">Select hospital</option>';
+  var _allHospSeen = {};
+
+  for (var st in stateObject) {
+    var list = stateObject[st] || [];
+
+    for (var i = 0; i < list.length; i++) {
+      var name = list[i];
+      
+      if (name && !_allHospSeen[name]) {
+        _allHospSeen[name] = true;
+        hospSelection.options[hospSelection.options.length] = new Option(name, name);
+        
+        {% comment %} console.log("Added hospital:", hospSelection.options[hospSelection.options.length - 1].text); {% endcomment %}
+      }
+    }
+  }
+}
+
+
+
+// Function to generate star ratings dynamically
+function generateStars(rating) {
+  const maxStars = 5;
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = (rating % 1) >= 0.5;
+  const emptyStars = maxStars - fullStars - (hasHalfStar ? 1 : 0);
+  
+  let starsHTML = '';
+  
+  // Add filled stars
+  for (let i = 0; i < fullStars; i++) {
+    starsHTML += '<i class="fa-solid fa-star"></i>';
+  }
+  
+  // Add half star if needed
+  if (hasHalfStar) {
+    starsHTML += '<i class="fa-solid fa-star-half-stroke"></i>';
+  }
+  
+  // Add empty stars
+  for (let i = 0; i < emptyStars; i++) {
+    starsHTML += '<i class="fa-regular fa-star"></i>';
+  }
+  
+  return starsHTML;
+}
+
+// Generate stars for all ratings on page load
+$('.star-rating').each(function() {
+  const rating = parseFloat($(this).data('rating'));
+  const starsHTML = generateStars(rating);
+  
+  // Set aria-label for accessibility
+  $(this).attr('aria-label', `Rating ${rating} out of 5 stars`);
+  $(this).html(starsHTML);
+});
+  
+</script>
+
+</head>
+
+
+<body>
+<!-- SEO Heading Structure -->
+<header>
+  {% comment %} <h1 style="text-align: center; margin: 0 0 30px 0; font-size: 32px; color: #2c3e50;">Hospital Reviews Malaysia</h1> {% endcomment %}
+</header>
+
+<main>
+<h2 class="section-header"><i class="fa-solid fa-magnifying-glass"></i> Search for Hospital Reviews</h2>
+<div class="flex-container-filter-section">
+  <!-- Left Sidebar - Filters - State -->
+    <div class="container-hosp-filter">
+      <h3>Filter State</h3>
+      
+      <div class="form-inline">
+        <div class="dropdown inline-dropdown">
+          <button class="btn btn-primary dropdown-toggle" id="state" type="button" data-toggle="dropdown">
+            Select State <span class="caret"></span>
+          </button>
+
+          <ul class="menu1 dropdown-menu">
+            <input class="form-control" id="input_state" type="text" placeholder="Search state...">
+          </ul>
+          
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container-hosp-filter">
+    <!-- Left Sidebar - Filters - Hospital -->
+      <h3>Filter Hospitals</h3>
+      <div class="form-inline">
+        <div class="dropdown inline-dropdown">
+          <button class="btn btn-primary dropdown-toggle" id="hosp" type="button" data-toggle="dropdown">
+            Select Hospital <span class="caret"></span>
+          </button>
+          <ul class="menu2 dropdown-menu">
+            <input class="form-control" id="input_hosp" type="text" placeholder="Search hospital...">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-inline">
+      <button id="filterSubmit" class="btn btn-default" style="width:100%; margin-top:15px; font-size:15px; border-radius:8px; padding:12px 16px;">Submit</button>
+    </div>
+  </div>
+
+  <!-- Banner: Encourage Sharing Hospital Experience -->
+  <div style="background:#eaf6fb; border-radius:10px; padding:20px; margin-bottom:25px; box-shadow:0 2px 8px rgba(52,152,219,0.08); text-align:center;">
+    <h1 style="font-size:2rem; color:#2980b9; margin-bottom:10px; font-weight:700;">Share your hospital experience &amp; make a difference</h1>
+    <p style="font-size:1.1rem; color:#34495e; margin-bottom:0;">Help other patients by <a href="mailto:wthealth2044@outlook.com" style="color:#2980b9; text-decoration:underline; font-weight:500;">emailing your story</a></p>
+  </div>
+
+  <!-- Right Content - Hospital Results -->
+  <div class="results-container">
+    <!-- Hospital List - Item 1 -->
+
+    <!-- SEO article tag // Schema.org - Hospital -->
+    <article class="container-hosp-name" itemscope itemtype="http://schema.org/Hospital">
+      <div>
+        <h2 itemprop="name">No reviews are currently displayed. </h2>
+        <p><span aria-label="Location">&#128205;</span> <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><span itemprop="addressRegion"></span></span></p>
+        <p style="color:#7f8c8d; font-size:16px; margin-top:10px;">To view hospital reviews, please select a state and hospital using the filters above.</p>
+        <p style="color:#95a5a6; font-size:14px;"></p>
+        <!-- SEO Font Awesome icons with accessibility - Auto-generated by JavaScript -->
+        <p itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+          <span class="star-rating" data-rating="5.0"></span> 
+          <span itemprop="ratingValue" id="rating"></span>
+          <meta itemprop="bestRating" content="5">
+        </p>
+      </div>
+    </article>
+
+    <div class="container-hosp-review">
+      <article itemprop="review" itemscope itemtype="http://schema.org/Review">
+        <div>
+          <p itemprop="reviewBody" id="1_review1">No reviews are currently displayed. </p>
+          <p itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+            <span class="star-rating" data-rating="5"></span> 
+            <span itemprop="ratingValue" id="1_review1_rating"></span>
+            <meta itemprop="bestRating" content="5">
+          </p>
+          <p itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name"></span></p>
+          <p><time itemprop="datePublished" datetime="2024-12-12"></time></p>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+</div>
+
+<p>Disclaimer: We're here to help you explore and compare.</p>
+<p>But please remember, the information on this site is for reference purposes only and should not replace advice from a qualified doctor or healthcare provider. Your health matters, so always seek professional guidance before making any medical decisions.</p>
+
+</main>
+
+</body>
+</html>
+
+
